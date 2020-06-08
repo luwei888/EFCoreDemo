@@ -3,18 +3,16 @@ using System.Collections.Generic;
 
 namespace Demo.Domain
 {
-    public class Player
+    public class Game
     {
-        public Player()
+        public Game()
         {
             GamePlayers = new List<GamePlayer>();
         }
 
         public int Id { get; set; }
-        public string Name { get; set; }
-        public DateTime DateOfBirth { get; set; }
-        public int ResumeId { get; set; }
-        public Resume Resume { get; set; }
+        public int Round { get; set; }
+        public DateTimeOffset? StartTime { get; set; }
         public List<GamePlayer> GamePlayers { get; set; }
     }
 }

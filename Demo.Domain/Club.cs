@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Demo.Domain
 {
@@ -13,6 +14,7 @@ namespace Demo.Domain
         public int Id { get; set; }
         public int Name { get; set; }
         public string City { get; set; }
+        [Column(TypeName = "date")]
         public DateTime DateOfEstablishment { get; set; }
         public string History { get; set; }
 

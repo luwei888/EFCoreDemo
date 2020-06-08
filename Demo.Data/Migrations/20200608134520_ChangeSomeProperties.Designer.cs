@@ -4,14 +4,16 @@ using Demo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Demo.Data.Migrations
 {
     [DbContext(typeof(DemoContext))]
-    partial class DemoContextModelSnapshot : ModelSnapshot
+    [Migration("20200608134520_ChangeSomeProperties")]
+    partial class ChangeSomeProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,39 +48,6 @@ namespace Demo.Data.Migrations
                     b.HasIndex("LeagueId");
 
                     b.ToTable("Clubs");
-                });
-
-            modelBuilder.Entity("Demo.Domain.Game", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Round")
-                        .HasColumnType("int");
-
-                    b.Property<DateTimeOffset?>("StartTime")
-                        .HasColumnType("datetimeoffset");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Game");
-                });
-
-            modelBuilder.Entity("Demo.Domain.GamePlayer", b =>
-                {
-                    b.Property<int>("PlayerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PlayerId", "GameId");
-
-                    b.HasIndex("GameId");
-
-                    b.ToTable("GamePlayer");
                 });
 
             modelBuilder.Entity("Demo.Domain.League", b =>
@@ -119,35 +88,11 @@ namespace Demo.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ResumeId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ClubId");
 
                     b.ToTable("Players");
-                });
-
-            modelBuilder.Entity("Demo.Domain.Resume", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PlayerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlayerId")
-                        .IsUnique();
-
-                    b.ToTable("Resume");
                 });
 
             modelBuilder.Entity("Demo.Domain.Club", b =>
@@ -157,35 +102,11 @@ namespace Demo.Data.Migrations
                         .HasForeignKey("LeagueId");
                 });
 
-            modelBuilder.Entity("Demo.Domain.GamePlayer", b =>
-                {
-                    b.HasOne("Demo.Domain.Game", "Game")
-                        .WithMany("GamePlayers")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Demo.Domain.Player", "Player")
-                        .WithMany("GamePlayers")
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Demo.Domain.Player", b =>
                 {
                     b.HasOne("Demo.Domain.Club", null)
                         .WithMany("Players")
                         .HasForeignKey("ClubId");
-                });
-
-            modelBuilder.Entity("Demo.Domain.Resume", b =>
-                {
-                    b.HasOne("Demo.Domain.Player", "Player")
-                        .WithOne("Resume")
-                        .HasForeignKey("Demo.Domain.Resume", "PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
