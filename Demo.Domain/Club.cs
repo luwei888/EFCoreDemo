@@ -12,7 +12,7 @@ namespace Demo.Domain
         }
 
         public int Id { get; set; }
-        public int Name { get; set; }
+        public string Name { get; set; }
         public string City { get; set; }
         [Column(TypeName = "date")]
         public DateTime DateOfEstablishment { get; set; }

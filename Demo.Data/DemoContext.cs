@@ -1,5 +1,6 @@
 ﻿using Demo.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Demo.Data
 {
@@ -7,7 +8,9 @@ namespace Demo.Data
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB; Initial Catalog=Demo");
+            optionsBuilder.UseLoggerFactory(ConsoleLoggerFactory)
+                .EnableSensitiveDataLogging()
+                .UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB; Initial Catalog=Demo");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -21,5 +24,13 @@ namespace Demo.Data
         public DbSet<Club> Clubs { get; set; }
 
         public DbSet<Player> Players { get; set; }
+
+        public static readonly ILoggerFactory ConsoleLoggerFactory = LoggerFactory.Create(builder =>
+        {
+            builder.AddFilter((category, level) =>
+            {
+                return category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information;
+            }).AddConsole();
+        });
     }
 }
