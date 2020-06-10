@@ -1,8 +1,6 @@
 ﻿using Demo.Data;
-using Demo.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Demo.App
@@ -33,8 +31,10 @@ namespace Demo.App
             //context.Leagues.Add(serieA);
             //context.Leagues.AddRange(serieA, serieB);
             //context.Leagues.AddRange(new List<League> { serieA, serieB });
-            #endregion
 
+            //var count = context.SaveChanges();
+
+            #endregion
 
             #region 查询  
 
@@ -61,9 +61,45 @@ namespace Demo.App
 
             #endregion
 
+            #region 删除
+
+            //只能删除被追踪的数据
+            //var milan = context.Clubs.Single(x=>x.Name == "AC Milan");
+
+            //调用删除方法
+            //context.Clubs.Remove(milan);
+            //context.Remove(milan);
+
+            //context.Clubs.RemoveRange(milan, milan);
+            //context.RemoveRange(milan,milan);
+
             //var count = context.SaveChanges();
 
-            //Console.WriteLine(count);
+            #endregion
+
+            #region 改
+
+            //必须被追踪才能更改
+            var league = context.Leagues.First();
+            league.Name += "~~";
+
+
+            var league2 = context.Leagues.Skip(1).Take(3).ToList();
+            foreach (var item in league2)
+            {
+                item.Name += "~~";
+            }
+
+            //不追踪，相当于前台传的数据
+            var league3 = context.Leagues.AsNoTracking().First();
+            league3.Name += "~";
+            context.Leagues.Update(league3);
+
+            var count = context.SaveChanges();
+
+            #endregion
+
+            Console.WriteLine(count);
         }
     }
 }
