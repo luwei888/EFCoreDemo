@@ -18,6 +18,9 @@ namespace Demo.Domain
         public DateTime DateOfEstablishment { get; set; }
         public string History { get; set; }
 
+        /// <summary>
+        /// 导航属性
+        /// </summary>
         public League League { get; set; }
         public List<Player> Players { get; set; }
     }

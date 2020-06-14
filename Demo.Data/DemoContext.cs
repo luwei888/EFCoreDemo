@@ -23,6 +23,8 @@ namespace Demo.Data
 
         public DbSet<Club> Clubs { get; set; }
 
+        public DbSet<Resume> Resumes { get; set; }
+
         public DbSet<Player> Players { get; set; }
 
         public static readonly ILoggerFactory ConsoleLoggerFactory = LoggerFactory.Create(builder =>
